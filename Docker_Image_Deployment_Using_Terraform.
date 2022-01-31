@@ -1,0 +1,231 @@
+Docker Image IaC Deployment on AWS ECS Cluster using.
+
+
+Prepare a Docker container with a CentOS image:
+Steps:
+1. Pull a CentOS image from the Docker registry.
+2. Create an ECS cluster using the docker image using Terraform.
+
+Prerequsites:
+a. Terraform installed
+b. An AWS account
+c. A AWS account on your local environment
+d. Docker installed
+
+Step1: Create a file with providers
+Use ‘providers.tf’ on the Terraform that contains Docker and AWS provider-
+
+
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "2.15.0"
+    }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
+provider "docker" {}
+
+provider "aws" {
+  region = var.region
+}
+
+Step2: Create a variables file
+
+The ‘variables.tf’ contains AWS region and VPC_CIDR- 
+
+variable "region" {
+  description = "The region the environment is going to be installed into"
+  type        = string
+  default     = "us-east-1"
+}
+
+# VPC variables
+
+variable "vpc_cidr" {
+  description = "CIDR range of VPC"
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+
+
+Step3: Create a VPC resource along with private subnet
+‘vpc.tf’ file contains AWS VPC resources
+
+resource "aws_vpc" "ecs_vpc" {
+  cidr_block = var.vpc_cidr
+
+  tags = {
+    Name = "VPC for ecs"
+  }
+}
+
+
+
+‘private-subnet.tf’ is the file for Private Subnet.
+
+resource "aws_subnet" "private_subnet_1" {
+  vpc_id            = aws_vpc.ecs_vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "private subnet 1"
+  }
+}
+
+
+resource "aws_subnet" "private_subnet_2" {
+  vpc_id            = aws_vpc.ecs_vpc.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "private subnet 2"
+  }
+}
+
+
+Step4: Create a file with ECS resource and module
+
+
+esource "aws_ecs_cluster" "cluster" {
+  name = "nafis-ecs-cluster"
+
+  capacity_providers = ["FARGATE_SPOT", "FARGATE"]
+
+  default_capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+  }
+
+  setting {
+    name  = "containerInsights"
+    value = "disabled"
+  }
+}
+
+module "ecs-fargate" {
+  source  = "umotif-public/ecs-fargate/aws"
+  version = "~> 6.1.0"
+
+  name_prefix        = "ecs-fargate-example"
+  vpc_id             = aws_vpc.ecs_vpc.id
+  private_subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
+
+  cluster_id = aws_ecs_cluster.cluster.id
+
+  task_container_image   = "centos"
+  task_definition_cpu    = 256
+  task_definition_memory = 512
+
+  task_container_port             = 80
+  task_container_assign_public_ip = true
+
+  load_balanced = false
+
+  target_groups = [
+    {
+      target_group_name = "tg-fargate-example"
+      container_port    = 80
+    }
+  ]
+
+  health_check = {
+    port = "traffic-port"
+    path = "/"
+  }
+
+  tags = {
+    Environment = "test"
+    Project     = "Test"
+  }
+}
+
+
+
+Step5: Running the Terraform commands
+
+After creating all the required files, the first step is to initialize the terraform backend by using thecommand
+
+$terraform init
+
+A successful initialization will give you an output as 
+Terraform has been successfully initialized.
+
+
+In the next step we validate our code by using the command.
+
+$terraform validate
+
+
+In case you want to validate your configurations you can use the commands below.
+You will get a message , Success ! Your configuration is Valid.
+$terraform validate
+
+In the next step we need to evaluate the terraform configurations and it can be done by the command
+$terraform plan
+
+To apply the configurations use the command below.
+$terraform apply
+
+If all the commands get executed without prompting any error it means your code is correct and the resources has been created as per the code.
+
+
+
+Validation on the backend
+1. Go to the AWS console
+2. Check if the VPC has been created in the VPC Dashboard or search for the VPC.
+3. Check if the Subnet been created in the VPC Dashboard or search for the subnet in VPC Search bar.
+4. Go to the Amazon ECS Clustured and check for the clusture and look at the details.
+
+
+The terraform destroy command terminates resources managed by your Terraform project. This command is the inverse of terraform apply in that it terminates all the resources specified in your Terraform state. It does not destroy resources running elsewhere that are not managed by the current Terraform project.
+
+
+$ terraform destroy
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_instance.app_server will be destroyed
+  - resource "aws_instance" "app_server" {
+      - ami                          = "ami-08d70e59c66c61a3a" -> null
+      - arn                          = "arn:aws:ec2:us-west-2:561156980159:instance/i-0fd4a35912bd21710" -> null
+##...
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value:
+  
+The - prefix indicates that the instance will be destroyed. As with apply, Terraform shows its execution plan and waits for approval before making any changes.
+
+Answer yes to execute this plan and destroy the infrastructure.
+
+
+Thanks.
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
