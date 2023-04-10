@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-10T10:18:14.289Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="i3h2NgFlQHYeknwgDe8S" version="21.1.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-10T10:28:48.902Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="JpokrjNe-hkVMHHa_e1d" version="21.1.5" type="github">
   <diagram name="Page-1" id="ShC8NdJLKS3Jmi1F9GBR">
     <mxGraphModel dx="1434" dy="806" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -125,13 +125,13 @@
           <mxGeometry x="1025" y="226" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="54U0eTTsK6xQpLQY22YJ-52" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="340" y="513.25" width="390" height="201" as="geometry" />
+          <mxGeometry x="330" y="513.25" width="470" height="201" as="geometry" />
         </mxCell>
         <mxCell id="54U0eTTsK6xQpLQY22YJ-53" value="&lt;div style=&quot;font-size: 12px;&quot;&gt;DNS Resolution Flow&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;labelBorderColor=none;fontFamily=Tahoma;fontStyle=5" parent="1" vertex="1">
           <mxGeometry x="351.91" y="518.25" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="54U0eTTsK6xQpLQY22YJ-56" value="&lt;div style=&quot;font-size: 12px;&quot;&gt;1. DNS Query to *.privatelink.vaultcore.azure.net&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;labelBorderColor=none;fontFamily=Tahoma;fontStyle=1" parent="1" vertex="1">
-          <mxGeometry x="351.91" y="553.25" width="320" height="30" as="geometry" />
+        <mxCell id="54U0eTTsK6xQpLQY22YJ-56" value="&lt;div style=&quot;font-size: 12px;&quot;&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;1. The host makes a call to&amp;nbsp;*.privatelink.vaultcore.azure.net&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;2. The DNS query hits the Azure DNS.&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;3. The Azure DNS has the information about the linked ruleset to the VNET (Spoke)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp; &amp;nbsp;and the destination where the query needs to go.&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;4. The ruleset looks at the attached outbound endpoints and initiates traffic.&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp; &amp;nbsp;from the Outbound Endpoints (Source IP) to the Inbound Endpoints (Destination IP).&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;5. The DNS Private Resolver (Outbound Endpoint/Inbound Endpoint) will forward&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp; &amp;nbsp;that trafic to linked Azure DNS Private Zone (*.privatelink.vaultcore.azure.net)&lt;/div&gt;&lt;div style=&quot;font-size: 12px;&quot;&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;labelBorderColor=none;fontFamily=Tahoma;fontStyle=0" parent="1" vertex="1">
+          <mxGeometry x="331.99999999999994" y="561" width="490" height="140" as="geometry" />
         </mxCell>
         <mxCell id="54U0eTTsK6xQpLQY22YJ-62" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/Virtual_Machine.svg;" parent="1" vertex="1">
           <mxGeometry x="1200" y="307" width="47.44" height="44" as="geometry" />
@@ -170,9 +170,11 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="Dtq2kLYq3ubREOPsY1h--8" value="Associated Rulesets&lt;br&gt;with Outbound Endpoint" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;noLabel=0;portConstraintRotation=0;snapToPoint=0;fixDash=0;container=0;autosize=0;" parent="Dtq2kLYq3ubREOPsY1h--7" connectable="0" vertex="1">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-111" as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="Z9ll0wz075Vxc75w5k5A-4" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;dashed=1;strokeWidth=2;" edge="1" parent="1">
+        <mxCell id="Z9ll0wz075Vxc75w5k5A-4" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;dashed=1;strokeWidth=2;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="839" y="310" as="sourcePoint" />
             <mxPoint x="834" y="185" as="targetPoint" />
@@ -182,7 +184,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Z9ll0wz075Vxc75w5k5A-7" value="" style="curved=1;endArrow=classic;html=1;rounded=0;dashed=1;fillColor=#76608a;strokeColor=#432D57;strokeWidth=2;" edge="1" parent="1" source="54U0eTTsK6xQpLQY22YJ-62">
+        <mxCell id="Z9ll0wz075Vxc75w5k5A-7" value="" style="curved=1;endArrow=classic;html=1;rounded=0;dashed=1;fillColor=#76608a;strokeColor=#432D57;strokeWidth=2;" parent="1" source="54U0eTTsK6xQpLQY22YJ-62" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1170" y="319.28" as="sourcePoint" />
             <mxPoint x="1114" y="270" as="targetPoint" />
@@ -191,7 +193,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Z9ll0wz075Vxc75w5k5A-8" value="" style="endArrow=classic;html=1;rounded=0;entryX=-0.009;entryY=0.302;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.017;exitY=0.367;exitDx=0;exitDy=0;exitPerimeter=0;fillColor=#f0a30a;strokeColor=#BD7000;dashed=1;strokeWidth=2;" edge="1" parent="1" source="54U0eTTsK6xQpLQY22YJ-21" target="54U0eTTsK6xQpLQY22YJ-17">
+        <mxCell id="Z9ll0wz075Vxc75w5k5A-8" value="" style="endArrow=classic;html=1;rounded=0;entryX=-0.009;entryY=0.302;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.017;exitY=0.367;exitDx=0;exitDy=0;exitPerimeter=0;fillColor=#f0a30a;strokeColor=#BD7000;dashed=1;strokeWidth=2;" parent="1" source="54U0eTTsK6xQpLQY22YJ-21" target="54U0eTTsK6xQpLQY22YJ-17" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="1010" y="260" as="sourcePoint" />
             <mxPoint x="980" y="240" as="targetPoint" />
@@ -201,7 +203,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Z9ll0wz075Vxc75w5k5A-9" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;dashed=1;strokeWidth=2;exitX=0.431;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="54U0eTTsK6xQpLQY22YJ-26" target="54U0eTTsK6xQpLQY22YJ-70">
+        <mxCell id="Z9ll0wz075Vxc75w5k5A-9" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#f0a30a;strokeColor=#BD7000;dashed=1;strokeWidth=2;exitX=0.431;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="54U0eTTsK6xQpLQY22YJ-26" target="54U0eTTsK6xQpLQY22YJ-70" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="630" y="99" as="sourcePoint" />
             <mxPoint x="915" y="186" as="targetPoint" />
